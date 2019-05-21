@@ -1,0 +1,48 @@
+/////////////////////////////////////////////////////////////////////////////
+// Name:        samples/samples.rc
+// Purpose:     a standard MSW .rc file for the wxWidgets samples
+// Author:      Vadim Zeitlin
+// Modified by:
+// Created:     04.08.03
+// Copyright:   (c) 2003 Vadim Zeitlin <vadim@wxwidgets.org>
+// Licence:     wxWindows licence
+/////////////////////////////////////////////////////////////////////////////
+
+#include "Resource.h"
+
+// this minimal resource file is all what is needed for most of the wxWidgets
+// samples
+
+// note that the icon used by the Explorer (i.e. the programs icon) is the
+// first icon in the executable and the icons are sorted both by their order
+// and alphabetically (!), so put this icon first and give it a name
+// starting with "a"
+aaaaaaaa ICON "sample.ico"
+
+// this icon is used with wxFrame::SetIcon()
+sample ICON "sample.ico"
+mainicon ICON "mainicon.ico"
+
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+
+#include "version.rc"
+#endif //_WIN32
+
+
+en-US             RCDATA                "Lang\\en-US.ini" //1252  English (United States)
+zh-CN             RCDATA                "Lang\\zh-CN.ini" //936  Chinese (PRC)
+zh-TW             RCDATA                "Lang\\zh-TW.ini" //950  Chinese (Taiwan)
+ja-JP             RCDATA                "Lang\\ja-JP.ini" //932  Japanese (Japan)
+
+// set this to 1 if you don't want to use manifest resource (manifest resource
+// is needed to enable visual styles on Windows XP - see docs/msw/winxp.txt
+// for more information)
+#define wxUSE_NO_MANIFEST 0
+
+// this is not always needed but doesn't hurt (except making the executable
+// very slightly larger): this file contains the standard icons, cursors, ...
+#include "wx/msw/wx.rc"
+
+

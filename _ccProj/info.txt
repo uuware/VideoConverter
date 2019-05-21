@@ -1,0 +1,498 @@
+		wxString data1;
+		wxString data2;
+		int n1;
+		int n2;
+		wxFFile file1(sPath, wxT("rb"));
+		if ( !file1.IsOpened() || !file1.ReadAll(&data1, conv) )
+		{
+		}
+		file1.Close();
+
+		wxFile file2(sPath, wxFile::read);
+		if ( !file2.IsOpened() || !file2.ReadAll(&data2, conv) )
+		{
+		}
+		file2.Close();
+
+		n1 = data1.length();
+		n2 = data2.length();
+		wxLogDebug(wxT("n1:%d, n2:%d"), n1, n2);
+		wxLogDebug(wxT("n1:[%s], n2:[%s]"), data1, data2);
+		if(!wxFileExists(sPath))
+		{
+			return false;
+		}
+		wxFile file(sPath, wxFile::read);
+		bool ret = false;
+		if ( file.IsOpened() )
+		{
+			ssize_t length = file.Length();
+			wxCHECK_MSG( (wxFileOffset)length == file.Length(), false, wxT("huge file not supported") );
+
+			wxCharBuffer buf(length);
+			char* p = buf.data();
+			for ( ;; )
+			{
+				static const ssize_t READSIZE = 4096;
+
+				ssize_t nread = file.Read(p, length > READSIZE ? READSIZE : length);
+				if ( nread == wxInvalidOffset )
+				{
+					break;
+				}
+
+				p += nread;
+				if ( length <= nread )
+				{
+					ret = true;
+					break;
+				}
+
+				length -= nread;
+			}
+
+			*p = 0;
+			p = buf.data();
+			if(length >= nU16BOMLen && !memcmp(p, szU16BOM, nU16BOMLen))
+			{
+				p += nU16BOMLen;
+			}
+			else if(length >= nBOMLen && !memcmp(p, szBOM, nBOMLen))
+			{
+				p += nBOMLen;
+			}
+			wxString strTmp(p, conv);
+			data.swap(strTmp);
+
+		}
+		file.Close();
+		return ret;
+
+		/*
+		wxFFile file(sPath, wxT("rb"));
+		if ( !file.IsOpened() || !file.ReadAll(&data, conv) )
+		{
+			file.Close();
+			return false;
+		}
+		else
+		{
+			file.Close();
+			return true;
+		}
+		*/
+
+
+for wxFrame
+//wxGraphicsPath path = wxGraphicsRenderer::GetDefaultRenderer()->CreatePath();
+//path.AddEllipse(0, 0,GetRect().width-20,GetRect().height/2);
+//int nRadius = m_DrawSkin->GetFrameRadius();
+//path.AddRoundedRectangle(0, 0, size.x, size.y, nRadius);
+//SetShape(path);
+
+//wxGraphicsContext* mContext = wxGraphicsRenderer::GetDefaultRenderer()->CreateContext(this);
+//mContext->DrawBitmap(*m_bitmapBack, 0, 0, size.x, size.y);
+//wxGraphicsContext* mContext = wxGraphicsRenderer::GetDefaultRenderer()->CreateContextFromImage(m_bitmapBack->ConvertToImage());
+//SetShape(mContext->CreatePath());
+//delete mContext;
+
+//m_bitmapBack->ConvertToImage().SaveFile(wxT("c:\\temp\\a1.png"), wxBitmapType::wxBITMAP_TYPE_PNG);
+
+void ImgFrame::OnEraseBackground(wxEraseEvent& WXUNUSED(event))
+{
+	/*
+	wxDC* dc = event.GetDC();
+	if(dc)
+	{
+		const wxSize size = GetSize();
+		dc->SetBrush(this->GetBackgroundColour());
+		dc->DrawRectangle(0, 0, size.x, size.y);
+		dc->SetBrush(wxNullBrush);
+	}
+	*/
+}
+
+
+	void MyFrame::OnWindowCreate(wxWindowCreateEvent& event){
+		wxRegion *r = new wxRegion(*bit);
+		this->SetShape(*r);
+	}
+	void MyFrame::OnPaint(wxPaintEvent& event){
+		wxPaintDC *dc = new wxPaintDC(this);
+		if(bit->IsOk()){
+			dc->DrawBitmap(*bit, 0, 0, TRUE);
+		}
+	};
+
+	//wxRegion bitmapRegion(*m_bitmapBack);
+	//this->SetShape(bitmapRegion);
+
+	this->SetWindowStyle(wxFRAME_SHAPED|wxSIMPLE_BORDER|wxSTAY_ON_TOP);
+	wxImage *img = new wxImage(wxT("d:\\\\bg.png"), wxBITMAP_TYPE_ANY);
+	this->SetSize(img->GetWidth(), img->GetHeight());
+	img->SetMask(TRUE);
+	img->SetMaskColour(255, 255, 255);
+	wxBitmap* bit = new wxBitmap(*img);
+	wxRegion *r = new wxRegion(*bit);
+	this->SetShape(*r);
+
+	//http://zetcode.com/gui/wxwidgets/gdi/
+	wxGraphicsPath path = wxGraphicsRenderer::GetDefaultRenderer()->CreatePath();
+	path.AddRoundedRectangle(0, 0, size.x, size.y, 7);
+	SetShape(path);
+
+for wndows
+
+wxFrame()
+	SetBackgroundStyle(wxBG_STYLE_CUSTOM);
+	long old_flags=GetWindowLong(GetHandle(), GWL_EXSTYLE);
+	SetWindowLong(GetHandle(), GWL_EXSTYLE, old_flags | WS_EX_LAYERED);
+	SetLayeredWindowAttributes(GetHandle(), RGB(255, 0, 255), 255, LWA_ALPHA);
+	SetLayeredWindowAttributes(GetHandle(), RGB(255, 0, 255), 255, LWA_COLORKEY);
+
+
+void ImgFrame::OnPaint(wxPaintEvent& WXUNUSED(event))
+{
+	wxAutoBufferedPaintDC dc(this);
+	dc.Clear();
+
+	wxSize size = this->GetVirtualSize();
+	//dc.SetPen(wxPen(wxColor(255, 255, 255)));
+	dc.SetBrush(wxBrush(wxColor(255, 0, 255)));
+	dc.DrawRectangle(0, 0, size.x, size.y);
+
+	//wxSize size = GetSize();
+	if(m_bitmapBack == NULL)
+	{
+		m_bitmapBack = new wxBitmap(size.x, size.y);
+		m_DrawSkin->DrawFrame(this, *m_bitmapBack);
+	}
+    dc.DrawBitmap(*m_bitmapBack, 0, 0);
+
+
+
+	//paintDC.SetBrush(wxColour(0, 0, 64));
+	//paintDC.SetPen(wxColour(0x39, 0x43, 0x50));
+	//paintDC.DrawLine(nLeftRight, 70, size.x - nLeftRight*2, 70);
+	//paintDC.DrawLine(nLeftRight, size.y - 30, size.x - nLeftRight*2, size.y - 30);
+	//paintDC.SetBrush(wxNullBrush);
+	//paintDC.SetPen(wxNullPen);
+
+	//Draw Background image
+	//paintDC.DrawBitmap(wxBitmap(wxImage("backgrnd.png")), 0, 0);
+	//paintDC.GradientFillLinear(GetRect(),*wxGREEN,*wxBLUE);
+	//paintDC.GradientFillLinear(GetClientRect(), wxColour(0x30, 0x38, 0x42), wxColour(0x30, 0x38, 0x42));
+	//paintDC.FloodFill(0, 0, wxColour(0x30, 0x38, 0x42));
+	//paintDC.DrawRectangle(300, 300, size.x - 100, size.y - 200);
+	//paintDC.DrawRectangle(p.x - 1, p.y - 1, p.width + 2, p.height + 2);
+    //paintDC.DrawText( wxT("back handler"), 100, 100 );
+	//const wxIcon mainIcon = this->GetIcon();
+	//int nTop = m_DrawSkin->GetTopWidth();
+	//paintDC.DrawIcon(mainIcon, 8, (nTop - mainIcon.GetHeight())/2 - 1);
+	//paintDC.DrawLabel(this->GetTitle(), wxRect(8 + mainIcon.GetWidth() + 5, -2, 200, nTop), wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL);
+
+
+
+draw TRANSPARENT
+	//::wxInitAllImageHandlers();
+	bitmap.UseAlpha();
+	wxMemoryDC memDC(bitmap);
+    //memDC.SelectObject(bitmap);
+
+	wxGCDC dc( memDC );
+	dc.SetBackground( *wxTRANSPARENT_BRUSH );
+	dc.Clear();
+
+	//memDC.SetBrush(m_backColour);
+	//dc.SetBrush(*wxTRANSPARENT_BRUSH);
+	dc.SetPen( *wxTRANSPARENT_PEN );
+	dc.SetFont(imgFrame->GetFont());
+	//memDC.DrawRoundedRectangle(0, 0, imgw, imgh, m_frameRadius);
+	//topleft
+	dc.DrawBitmap(m_imgTopLeft, 0, 0, true);
+
+
+
+	wxBitmap bitmap(size.x, size.y);
+	wxMemoryDC memDC(bitmap);
+	memDC.SetPen(wxPen(wxColor(255, 255, 255)));
+	memDC.SetBrush(wxBrush(wxColor(255, 255, 255)));
+	//memDC.DrawRoundedRectangle(0, 0, size.x, size.y, 8);
+	memDC.DrawRectangle(0, 0, size.x, size.y);
+
+	//memDC.SetBrush(wxBrush(wxColor(255, 0, 0)));
+	//memDC.DrawRectangle(100, 100, size.x-200, size.y-200);
+
+	memDC.SetBrush(wxNullBrush);
+	wxGCDC dc( memDC );
+	dc.SetBackground( *wxTRANSPARENT_BRUSH );
+	dc.Clear();
+	dc.DrawBitmap(*m_bitmapBack, 0, 0, true);
+	memDC.SelectObject(wxNullBitmap);
+	//bitmap.SaveFile(wxT("c:\\temp\\a3.png"), wxBitmapType::wxBITMAP_TYPE_PNG);
+	//m_bitmapBack->SaveFile(wxT("c:\\temp\\a2.png"), wxBitmapType::wxBITMAP_TYPE_PNG);
+
+
+	/*
+	wxGraphicsContext* mContext = wxGraphicsRenderer::GetDefaultRenderer()->CreateContext(this);
+	mContext->SetBrush(wxColour( 0,0,0, wxALPHA_TRANSPARENT ));
+
+	mContext->DrawBitmap(*m_bitmapBack, 0, 0, size.x, size.y);
+	SetShape(mContext->CreatePath());
+	delete mContext;
+
+	wxGraphicsPath path = wxGraphicsRenderer::GetDefaultRenderer()->CreatePath();
+	path.AddRoundedRectangle(0, 0, size.x, size.y, 20);
+	SetShape(path);
+	*/
+
+
+wxMemoryDC dcDest;
+wxMemoryDC dcSource;
+
+int destWidth = 200, destHeight = 200;
+
+// Create the destination bitmap
+wxBitmap bitmapDest(destWidth, destHeight);
+
+// Load the pattern bitmap
+wxBitmap bitmapSource(wxT("pattern.png"), wxBITMAP_TYPE_PNG);
+
+int sourceWidth = bitmapSource.GetWidth();
+int sourceHeight = bitmapSource.GetHeight();
+
+// Clear the destination background to white
+dcDest.SelectObject(bitmapDest);
+dcDest.SetBackground(*wxWHITE_BRUSH);
+dcDest.Clear();
+
+dcSource.SelectObject(bitmapSource);
+
+// Tile the smaller bitmap onto the larger bitmap
+for (int i = 0; i < destWidth; i += sourceWidth)
+    for (int j = 0; j < destHeight; j += sourceHeight)
+    {
+        dcDest.Blit(i, j, sourceWidth, sourceHeight,
+                    & dcSource, 0, 0, wxCOPY, true);
+    }
+
+// Tidy up
+dcDest.SelectBitmap(wxNullBitmap);
+dcSource.SelectBitmap(wxNullBitmap);
+
+
+        wxImage img(m_bitmap.ConvertToImage());
+
+        const wxSize size = GetClientSize();
+        img.Rescale(size.x, size.y, wxIMAGE_QUALITY_HIGH);
+        m_bitmap = wxBitmap(img);
+
+
+
+
+bool DrawSkin::DrawFrame(ImgFrame* imgFrame, wxBitmap& bitmap)
+{
+    wxCHECK_MSG( m_isLoaded, false, wxT("not loaded") );
+
+	int imgh = bitmap.GetHeight();
+	int imgw = bitmap.GetWidth();
+	if(!m_imgTopLeft.IsOk() || !m_imgTopCenter.IsOk() || !m_imgTopRight.IsOk() || !m_imgLeft.IsOk() || !m_imgRight.IsOk())
+	{
+		return false;
+	}
+	if(imgw < m_imgTopLeft.GetWidth() + m_imgTopRight.GetWidth() || imgw < m_imgLeft.GetWidth() + m_imgRight.GetWidth())
+	{
+		return false;
+	}
+
+	if(!m_imgBottomLeft.IsOk() || !m_imgBottomCenter.IsOk() || !m_imgBottomRight.IsOk())
+	{
+		return false;
+	}
+	if(imgw < m_imgBottomLeft.GetWidth() + m_imgBottomRight.GetWidth())
+	{
+		return false;
+	}
+
+	//top side(should m_imgTopLeft and others have same height!)
+	int nTopH = m_imgTopCenter.GetHeight();
+	//bottom side(should m_imgBottomLeft,m_imgBottomCenter,m_imgBottomRight have same height!)
+	int nBottomH = m_imgBottomCenter.GetHeight();
+	if(imgh < nTopH + nBottomH)
+	{
+		return false;
+	}
+
+	bitmap.UseAlpha();
+	wxMemoryDC dc(bitmap);
+    //memDC.SelectObject(bitmap);
+	wxGraphicsContext* m_gcontext = wxGraphicsContext::Create(dc);
+
+	//wxGCDC dc( memDC );
+	//dc.SetBackground( *wxTRANSPARENT_BRUSH );
+	//dc.Clear();
+
+	//memDC.SetBrush(m_backColour);
+	//dc.SetBrush(*wxTRANSPARENT_BRUSH);
+	//dc.SetPen( *wxTRANSPARENT_PEN );
+	dc.SetFont(imgFrame->GetFont());
+	//memDC.DrawRoundedRectangle(0, 0, imgw, imgh, m_frameRadius);
+	//topleft
+	//dc.DrawBitmap(m_imgTopLeft, 0, 0, true);
+	m_gcontext->DrawBitmap(m_imgTopLeft2, 0, 0, m_imgTopLeft.GetWidth(), m_imgTopLeft.GetHeight());
+
+	//left side
+	//right side
+	if(imgh - nTopH - nBottomH > 0)
+	{
+		//wxImage tmpLeft = m_imgLeft.Scale(m_imgLeft.GetWidth(), imgh - nTopH - nBottomH);
+		//wxImage tmpRight = m_imgRight.Scale(m_imgRight.GetWidth(), imgh - nTopH - nBottomH);
+		//dc.DrawBitmap(tmpLeft, 0, nTopH, true);
+		//dc.DrawBitmap(tmpRight, imgw - m_imgRight.GetWidth(), nTopH, true);
+		m_gcontext->DrawBitmap(m_imgLeft2, 0, nTopH, m_imgLeft.GetWidth(), imgh - nTopH - nBottomH);
+		m_gcontext->DrawBitmap(m_imgRight2, imgw - m_imgRight.GetWidth(), nTopH, m_imgLeft.GetWidth(), imgh - nTopH - nBottomH);
+	}
+
+	//drow top like:topleft---title---title right---center---topright
+	//           or:topleft---center---topright
+	wxString sTitle = imgFrame->GetTitle();
+	wxIcon mainIcon = imgFrame->GetIcon();
+	int nMiniW = m_imgTopLeft.GetWidth() + m_imgTopRight.GetWidth() + m_imgTopCenter.GetWidth();
+	if(m_imgTopTitle.IsOk() && m_imgTopTitleRight.IsOk() && imgw > nMiniW + m_imgTopTitle.GetWidth() + m_imgTopTitleRight.GetWidth())
+	{
+		wxCoord textw;
+		wxCoord texth;
+		//dc.GetTextExtent(sTitle, &textw, &texth);
+		m_gcontext->GetTextExtent(sTitle, &textw, &texth);
+
+		//title
+		int titleW = textw + 16 + 5;
+		wxImage tmpTopCenter = m_imgTopTitle.Scale(titleW, nTopH);
+		dc.DrawBitmap(tmpTopCenter, m_imgTopLeft.GetWidth(), 0, true);
+
+		//::SetTextColor(GetHdc(), RGB(255, 255, 255));
+		//mainIcon.SetSize(16, 16);
+		dc.DrawIcon(mainIcon, m_imgTopLeft.GetWidth(), 5);
+		this->DrawText(dc, sTitle, wxRect(m_imgTopLeft.GetWidth() + 16 + 5, 0, 60, nTopH), wxALIGN_CENTER_VERTICAL|wxALIGN_LEFT);
+		//dc.DrawLabel(sTitle, wxRect(m_imgTopLeft.GetWidth() + 16 + 5, 0, 10, nTopH), wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|DT_END_ELLIPSIS);
+
+		//title right
+		dc.DrawBitmap(m_imgTopTitleRight, m_imgTopLeft.GetWidth() + titleW, 0, true);
+
+		//top center()
+		int centerW = imgw - m_imgTopLeft.GetWidth() - m_imgTopRight.GetWidth() - m_imgTopTitleRight.GetWidth() - titleW;
+		if(centerW > 0)
+		{
+			wxImage tmpTopCenter = m_imgTopCenter.Scale(centerW, nTopH);
+			dc.DrawBitmap(tmpTopCenter, m_imgTopLeft.GetWidth() + m_imgTopTitleRight.GetWidth() + titleW, 0, true);
+		}
+	}
+	else
+	{
+		//top center
+		if(imgw - m_imgTopLeft.GetWidth() - m_imgTopRight.GetWidth() > 0)
+		{
+			wxImage tmpTopCenter = m_imgTopCenter.Scale(imgw - m_imgTopLeft.GetWidth() - m_imgTopRight.GetWidth(), nTopH);
+			dc.DrawBitmap(tmpTopCenter, m_imgTopLeft.GetWidth(), 0, true);
+		}
+
+		//m_frameIconsize
+		dc.DrawIcon(mainIcon, m_imgTopLeft.GetWidth(), 5);
+		//dc.DrawLabel(imgFrame->GetTitle(), wxRect(8 + mainIcon.GetWidth() + 5, -2, 200, nTop), wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL);
+		this->DrawText(dc, sTitle, wxRect(m_imgTopLeft.GetWidth() + 16 + 5, 0, 40, nTopH), wxALIGN_CENTER_VERTICAL|wxALIGN_LEFT);
+	}
+	//topright
+	dc.DrawBitmap(m_imgTopRight, imgw - m_imgTopRight.GetWidth(), 0, true);
+
+	//bottom center
+	int nBottomCenterW = imgw - m_imgBottomLeft.GetWidth() - m_imgBottomRight.GetWidth();
+	if(nBottomCenterW > 0)
+	{
+		//wxImage tmpBottomCenter = m_imgBottomCenter.Scale(nBottomCenterW, nBottomH);
+		//dc.DrawBitmap(tmpBottomCenter, m_imgBottomLeft.GetWidth(), imgh - nBottomH, true);
+		m_gcontext->DrawBitmap(m_imgBottomCenter2, m_imgBottomLeft.GetWidth(), imgh - nBottomH, nBottomCenterW, nBottomH);
+	}
+	//FillImage(memDC, m_imgBottomCenter, m_imgBottomLeft.GetWidth(), m_imgBottomCenter.GetWidth(), imgw - m_imgBottomLeft.GetWidth() - m_imgBottomRight.GetWidth(), imgh - nBottomH, nBottomH, imgh - nBottomH);
+	dc.DrawBitmap(m_imgBottomLeft, 0, imgh - nBottomH, true);
+	dc.DrawBitmap(m_imgBottomRight, imgw - m_imgBottomRight.GetWidth(), imgh - nBottomH, true);
+
+	dc.SetBrush(wxNullBrush);
+	dc.SelectObject(wxNullBitmap);
+	delete m_gcontext;
+	return true;
+}
+
+
+
+
+    wxImage image;
+    image.Create( width, height, false );
+
+    unsigned char *data = image.GetData();
+
+    wxCHECK_MSG( data, image, wxT("unable to create image") );
+
+    const unsigned char *source_data = M_IMGDATA->m_data;
+    unsigned char *target_data = data;
+    const unsigned char *source_alpha = 0 ;
+    unsigned char *target_alpha = 0 ;
+
+    if ( !M_IMGDATA->m_hasMask )
+    {
+        source_alpha = M_IMGDATA->m_alpha ;
+        if ( source_alpha )
+        {
+            image.SetAlpha() ;
+            target_alpha = image.GetAlpha() ;
+        }
+    }
+
+    long old_height = M_IMGDATA->m_height,
+         old_width  = M_IMGDATA->m_width;
+    long x_delta = (old_width<<16) / width;
+    long y_delta = (old_height<<16) / height;
+
+    unsigned char* dest_pixel = target_data;
+
+    long y = 0;
+    for ( long j = 0; j < height; j++ )
+    {
+        const unsigned char* src_line = &source_data[(y>>16)*old_width*3];
+        const unsigned char* src_alpha_line = source_alpha ? &source_alpha[(y>>16)*old_width] : 0 ;
+
+        long x = 0;
+        for ( long i = 0; i < width; i++ )
+        {
+            const unsigned char* src_pixel = &src_line[(x>>16)*3];
+            const unsigned char* src_alpha_pixel = source_alpha ? &src_alpha_line[(x>>16)] : 0 ;
+            dest_pixel[0] = src_pixel[0];
+            dest_pixel[1] = src_pixel[1];
+            dest_pixel[2] = src_pixel[2];
+            dest_pixel += 3;
+            if ( source_alpha )
+                *(target_alpha++) = *src_alpha_pixel ;
+            x += x_delta;
+        }
+
+        y += y_delta;
+    }
+
+    return image;
+
+
+	/*
+	wxImage image = m_bitmapBack->ConvertToImage();
+	image.SetMask();
+	wxBitmap bitmap2 = wxBitmap(image);
+
+	if(image.HasMask())
+	{
+		wxRegion bitmapRegion(*m_bitmapBack, wxColor(image.GetMaskRed(), image.GetMaskGreen(), image.GetMaskBlue()));
+		this->SetShape(bitmapRegion);
+	}
+	*/
+	//wxMask* m = m_bitmapBack->GetMask();
+	//wxRegion bitmapRegion; //(bitmap, wxColor(255, 255, 255));
+	//if(DrawSkin::SkinRegion(bitmapRegion, m_bitmapBack->ConvertToImage(), 0))
+	//if(DrawSkin::SkinRegion(bitmapRegion, *m_bitmapBack, 0))
+

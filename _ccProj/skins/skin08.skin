@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin name="skin08" copyrights="aaa" version="" image="skin08.png">
+
+	<frame>
+		<topheight>30</topheight>
+		<leftwidth>5</leftwidth>
+		<rightwidth>5</rightwidth>
+		<bottomheight>5</bottomheight>
+		<!-- for icon size(=height or width), show in toptitle or topcenter -->
+		<titleiconsize>16</titleiconsize>
+		<iconleft>25</iconleft>
+		<icontop>5</icontop>
+		<titletop>5</titletop>
+		<!-- left or right side width -->
+		<topleft>0,34,10,30</topleft>
+		<toptitleleft>11,34,15,30</toptitleleft>
+		<toptitle>35,34,130,30</toptitle>
+		<toptitleright>169,34,17,30</toptitleright>
+		<topcenter>188,34,12,30</topcenter>
+		<topright>201,34,14,30</topright>
+		<bottomleft>0,73,10,5</bottomleft>
+		<bottomcenter>20,73,150,5</bottomcenter>
+		<bottomright>170,73,10,5</bottomright>
+		<leftside>0,66,5,6</leftside>
+		<rightside>210,66,5,6</rightside>
+
+		<!-- background color, #ffffff or 255,255,255 -->
+		<titlecolor>#ffffff</titlecolor>
+		<backgroundcolor>#e8e8e8</backgroundcolor>
+		<transparentcolor>#00ff00</transparentcolor>
+
+	</frame>
+	<controlbutton>
+		<top>8</top>
+		<right>10</right>
+		<splitwidth>2</splitwidth>
+		<minimize>
+			<normall>215,107,18,18</normall>
+			<mouseon>233,107,18,18</mouseon>
+			<pressed>251,107,18,18</pressed>
+			<disabled></disabled>
+		</minimize>
+		<maximize>
+			<normall>107,107,18,18</normall>
+			<mouseon>125,107,18,18</mouseon>
+			<pressed>143,107,18,18</pressed>
+			<disabled></disabled>
+		</maximize>
+		<maximizemax>
+			<normall>161,107,18,18</normall>
+			<mouseon>179,107,18,18</mouseon>
+			<pressed>197,107,18,18</pressed>
+			<disabled></disabled>
+		</maximizemax>
+		<close>
+			<normall>269,107,18,18</normall>
+			<mouseon>287,107,18,18</mouseon>
+			<pressed>305,107,18,18</pressed>
+			<disabled></disabled>
+		</close>
+		<topmenu>
+			<normall>0,107,18,18</normall>
+			<mouseon>18,107,18,18</mouseon>
+			<pressed>36,107,18,18</pressed>
+			<disabled></disabled>
+		</topmenu>
+	</controlbutton>
+
+	<button>
+		<normal>
+			<left>0,213,20,23</left>
+			<center>21,213,40,23</center>
+			<right>60,213,23,23</right>
+		</normal>
+		<mouseon>
+			<left>84,213,20,23</left>
+			<center>105,213,40,23</center>
+			<right>145,213,23,23</right>
+		</mouseon>
+		<pressed>
+			<left>168,213,20,23</left>
+			<center>188,213,40,23</center>
+			<right>228,213,23,23</right>
+		</pressed>
+		<disabled>
+			<left></left>
+			<center></center>
+			<right></right>
+		</disabled>
+	</button>
+
+	<skin name="  main 03   " type="button">
+		<!-- skin image path -->
+		<image>rect04.png</image>
+		<image>rect04.png</image>
+		<imageactive>rect04.png</imageactive>
+		<imagepressed></imagepressed>
+		<imagedisabed type="xx"></imagedisabed>
+		<!-- radius for corner, 1~10 -->
+		<arc>8</arc>
+		<!-- left or right side width -->
+		<leftrightside>9</leftrightside>
+		<skin name="main 03" type="button">
+			<!-- skin image path -->
+			<image type="xx">rect04.png</image>
+			<image>rect04.png</image>
+		</skin>
+	</skin>
+
+	<skin name="main 02XX" type="button">
+		<!-- skin image path -->
+		<image>rect04.png</image>
+		<imageactive>rect04.png</imageactive>
+		<imagepressed>rect04.png</imagepressed>
+		<imagedisabed>rect04.png</imagedisabed>
+		<!-- radius for corner, 1~10 -->
+		<arc>8</arc>
+		<!-- left or right side width -->
+		<leftrightside>9</leftrightside>
+		<topside>9</topside>
+		<bottomside>15</bottomside>
+
+		<!-- top or bottom bar width from center line -->
+		<topbarwidth></topbarwidth>
+		<bottombarwidth></bottombarwidth>
+		<centercenterwidth></centercenterwidth>
+		<!-- background color, #ffffff or 255,255,255 -->
+		<backgroundcolor>#303842</backgroundcolor>
+	</skin>
+</skin>
